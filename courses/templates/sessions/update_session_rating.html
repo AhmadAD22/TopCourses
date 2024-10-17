@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <h2 class="text-center text-primary">تحديث تقييم الجلسة</h2>
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group text-right">
+                    <label for="id_rating">{{ form.rating.label }}</label>
+                    <div class="rating d-flex justify-content-center" style="font-size: 24px;">
+                        <input type="hidden" name="rating" id="rating" value="{{ form.rating.value|default:0 }}">
+                        {% for i in "12345" %}
+                            {% if i|add:0 <= form.rating.value %}
+                                <span class="bi bi-star text-warning" data-value="{{ i }}"></span>  <!-- Filled star -->
+                            {% else %}
+                                <span class="bi bi-star" data-value="{{ i }}"></span> <!-- Empty star -->
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-group text-right">
+                    <label for="id_message">{{ form.message.label }}</label>
+                    {{ form.message }}
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">تحديث</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Make stars clickable
+    document.querySelectorAll('.rating .bi').forEach(function(star) {
+        star.addEventListener('click', function() {
+            let ratingValue = this.getAttribute('data-value');
+            document.getElementById('rating').value = ratingValue;
+            updateStars(ratingValue);
+        });
+    });
+
+    function updateStars(ratingValue) {
+        document.querySelectorAll('.rating .bi').forEach(function(star, index) {
+            if (index < ratingValue) {
+                star.classList.add('text-warning'); // Change to highlighted star
+            } else {
+                star.classList.remove('text-warning'); // Remove highlight
+            }
+        });
+    }
+</script>
+
+<style>
+    .rating span {
+        cursor: pointer;
+        color: lightgray; /* Default star color */
+        margin: 0 2px; /* Spacing between stars */
+    }
+    .rating span.text-warning {
+        color: gold; /* Highlight color for selected stars */
+    }
+</style>
+
+{% endblock %}

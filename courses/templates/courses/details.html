@@ -1,0 +1,31 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<div class="container my-5 text-right" dir="rtl">
+    <!-- اسم الدورة -->
+    <h3 class="text-center mb-4">{{ course.name }}</h3>
+
+    <!-- الخط الزمني للجلسات -->
+    <div class="timeline position-relative">
+        {% for session in course.session_set.all %}
+        <div class="timeline-item">
+            <div class="timeline-icon">
+                <i class="bi bi-calendar-check-fill"></i>
+            </div>
+            <div class="timeline-content">
+                <a href="{% url 'session_details' session.id %}" class="card-link" style="text-decoration: none; color: inherit;">
+                <div class="card">
+                    <div class="card-body">
+                <h4 class="timeline-title">الجلسة رقم {{ session.number }}</h4>
+                <p class="text-muted">التاريخ: {{ session.date }}</p>
+            </div>
+            </div>
+           </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

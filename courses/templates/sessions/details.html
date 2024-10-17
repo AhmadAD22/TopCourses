@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="container my-5">
+    <h3 class="text-center text-primary">تفاصيل الجلسة رقم {{ session.number }}</h3>
+    <p class="text-muted text-center">التاريخ: {{ session.date|date:"d-m-Y" }}</p>
+    <div class="text-center">
+        {% if user.is_superuser %}
+            <a href="{% url 'generate_qr_code' session.id %}" class="btn btn-primary">QR CODE</a>
+        {% else %}
+        {% if student_attendances %}
+        <h6 class="text-center text-success">تم تأكيدحضورك</h6>
+            {% if session_rating %}
+                <div class="rating-section my-4">
+                    <h4>تقيمك</h4>
+                    <a href="{% url "update_session_rating" session_rating.id %}" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a>
+                    <div class="rating" style="font-size: 24px;">
+                        <input type="hidden" name="rating" id="rating" value="{{ session_rating.rating }}">
+                        {% for i in "12345" %}
+                            {% if i|add:0 <= session_rating.rating %}
+                                <span class="bi bi-star text-warning"></span>  <!-- Filled star -->
+                            {% else %}
+                                <span class="bi bi-star"></span> <!-- Empty star -->
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <p class="mt-2">{{ session_rating.message }}</p>
+                </div>
+            {% else %}
+                <a href="{% url "add_session_rating" session.id %}" class="btn btn-success">قيم الجلسة</a>
+            {% endif %}
+            {% else %}
+            <h6 class="text-center text-danger">عذرا لم يتم تأكيد الحضور</h6>
+            {% endif %}
+        {% endif %}
+    </div>
+    
+    {% if user.is_superuser %}
+    <!-- قائمة الطلاب الذين حضروا الجلسة -->
+    <h3 class="text-center">الحضور</h3>
+
+    <!-- جدول الطلاب -->
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered text-center text-light">
+            <thead class="thead">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">الاسم الكامل</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if attendances %}
+                    {% for attendance in attendances %}
+                    <tr class="text-light">
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ attendance.student.fullName }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr class="text-light">
+                        <td colspan="2" class="text-center">لا يوجد طلاب حضروا هذه الجلسة.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
