@@ -2,7 +2,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from ..models import SessionRating
 from ..forms.rating import SessionRatingForm
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='login')  
 def add_session_rating(request, session_id):
     if request.method == 'POST':
         form = SessionRatingForm(request.POST)
