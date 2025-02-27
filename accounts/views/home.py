@@ -6,6 +6,10 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     user = request.user
     courses = None
-    if user.is_authenticated:
-        courses = Course.objects.filter(studentscourse__student=user)    
+    
+    if user.is_authenticated and hasattr(user, 'student'):
+        # Assuming the logged-in user is a student and has a related Student profile
+        student_courses = StudentsCourse.objects.filter(student=user.student)
+        courses = [sc.course for sc in student_courses][:3]  # Get the first 3 courses
+    
     return render(request, 'home.html', {'courses': courses})

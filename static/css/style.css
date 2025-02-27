@@ -216,11 +216,13 @@
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
     color: var(--text-color);
-    box-shadow: 0 4px 8px rgba(102, 99, 99, 0.1);
+    box-shadow: 0 8px 16px rgba(48, 58, 104, 0.9);
   }
   
   .card-header {
-    background-color: var(--background-color);
+    background-color: var(--card-bg) !important;
+    box-shadow: 0 8px 16px rgba(48, 58, 104, 0.9) !important;
+    border-radius: var(--border-radius);
   }
   
   .card-body {

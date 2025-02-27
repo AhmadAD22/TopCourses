@@ -42,5 +42,28 @@ class User(AbstractUser):
     EMAIL_FIELD='email'
     REQUIRED_FIELDS = []
     objects = UserManager()
+ 
+ 
+class Manager(User):
+    class Meta:
+        verbose_name = 'Manager'
+        verbose_name_plural = 'Manager'
     
-        
+    def __str__(self):
+        return self.fullName   
+    
+class Trainer (User):
+    class Meta:
+        verbose_name = 'Trainer'
+        verbose_name_plural = 'Trainer'
+    
+    def __str__(self):
+        return self.fullName
+    
+class Student(User):
+    class Meta:
+        verbose_name = 'Student'
+        verbose_name_plural = 'Student'
+    
+    def __str__(self):
+        return self.fullName

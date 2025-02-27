@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import gettext_lazy as _
-from ..models import User
+from ..models import Student
 
 # Signup form
 class SignupForm(forms.ModelForm):
@@ -15,7 +15,7 @@ class SignupForm(forms.ModelForm):
     )
 
     class Meta:
-        model = User
+        model = Student
         fields = ['fullName', 'phone', 'email']
         labels = {
             'fullName': _('الاسم الكامل'),

@@ -1,7 +1,8 @@
 # views.py
 from django.shortcuts import render, redirect, get_object_or_404
-from ..models import SessionRating
+from ..models import SessionRating,Session
 from ..forms.rating import SessionRatingForm
+from accounts.models import Student
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='login')  
@@ -10,7 +11,9 @@ def add_session_rating(request, session_id):
         form = SessionRatingForm(request.POST)
         if form.is_valid():
             session_rating = form.save(commit=False)
-            session_rating.student = request.user  # Assuming the user is logged in
+            student=Student.objects.get(id=request.user.id)
+
+            session_rating.student = student  # Assuming the user is logged in
             session_rating.session_id = session_id  # Set the session foreign key
             session_rating.save()
             return redirect('session_details', session_id=session_id)  # Redirect to session detail or another page
@@ -31,3 +34,14 @@ def update_session_rating(request, rating_id):
         form = SessionRatingForm(instance=session_rating)
     
     return render(request, 'sessions/update_session_rating.html', {'form': form})
+
+@login_required(login_url='login')  
+def session_rating_list(request,session_id):
+    ratings = SessionRating.objects.filter(session__id=session_id)
+    session=get_object_or_404(Session,id=session_id)
+    context = {
+        'ratings': ratings,
+        'session':session
+        
+    }
+    return render(request, 'sessions/list_rating.html', context)

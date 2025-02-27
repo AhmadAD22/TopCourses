@@ -1,120 +1,193 @@
-{% load static %}
 
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
+{% load static %}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %} {% endblock %}
-    </title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Option 1: Include in HTML -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-    <!-- Custom CSS -->
-    <link href="{% static "css/style.css" %}" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="techida | IT Solutions & Business Services HTML landing page template ">
+  <!-- fav icon -->
+  {% comment %} <link rel="icon" href="images/favicon.ico"> {% endcomment %}
+
+  <!-- bootstarp css file -->
+  <link rel="stylesheet" href="{% static "website/css/bootstrap.min.css" %} ">
+
+  <!-- aos.css file -->
+  <link rel="stylesheet" href="{% static "website/css/aos.css" %}">
+
+  <!-- fancybox css file -->
+  <link rel="stylesheet" href="{% static "website/css/jquery.fancybox.min.css" %} ">
+
+  <!-- owl carousel css file -->
+  <link rel="stylesheet" href="{% static "website/css/owl.carousel.min.css" %} ">
+  <link rel="stylesheet" href="{% static "website/css/owl.theme.default.min.css" %} ">
+
+  <!--  toasts file     -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+  <!-- bootstrap icons -->
+  <link rel="stylesheet" href="{% static "website/css/bootstrap-icons/bootstrap-icons.css" %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+  <!-- Google font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- main css file -->
+  <link rel="stylesheet" href="{% static "website/css/style.css" %}">
+  <title> {% block title %}{% endblock title %}</title>
 </head>
-<body>
-    <div id="preloader">
-        <div class="spinner"></div>
-        
-      </div>
-    
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <nav id="sidebarMenu" class="col-md-3 d-md-block navbar-expand-lg sidebar">
-                <div class="sidebar-sticky text-center">
-                    <img src="{% static 'images/logo/logo.png' %} " class="ml-4" alt="TOP LOGO" width="100px" height="100px">
-                    
-                    <button class="btn btn-info" id="toggleModeBtn"><i id="modeIcon" class="bi bi-sun"></i></button>
-                    <script>
-                        // Check localStorage for theme preference and apply it on page load
-                        document.addEventListener('DOMContentLoaded', function() {
-                            const savedTheme = localStorage.getItem('theme');
-                            if (savedTheme === 'light') {
-                                document.body.classList.add('light-mode');
-                            }
-                        });
-                    
-                        function toggleLightMode() {
-                            document.body.classList.toggle('light-mode');
-                            const modeIcon = document.getElementById('modeIcon');
-        
-                            // Toggle the icon based on current mode
-                            if (document.body.classList.contains('light-mode')) {
-                                modeIcon.classList.remove('bi-moon');
-                                modeIcon.classList.add('bi-sun');
-                            } else {
-                                modeIcon.classList.remove('bi-sun');
-                                modeIcon.classList.add('bi-moon');
-                            }
-                      
-                            // Save the current theme to localStorage
-                            if (document.body.classList.contains('light-mode')) {
-                                localStorage.setItem('theme', 'light');
-                            } else {
-                                localStorage.setItem('theme', 'dark');
-                            }
-                        }
-                    
-                        document.getElementById('toggleModeBtn').addEventListener('click', toggleLightMode);
-                    </script>
-                  
-                    <hr>
-                    <ul class="nav flex-column text-right">
-                        <li class="nav-item">
-                            <a class="nav-link {% block home %}{% endblock home %}" href="{% url "home" %}">الرئيسية</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% block courses %}{% endblock courses %}" href="{% url "coursres" %}">التدريبات</a>
-                        </li>
-                         
-                    </ul>
-                </div>
-                
-            </nav>
 
-            <!-- Main Content -->
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-9 main-content">
-                
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                    <a class="btn btn-link text-light" href="{% url "logout" %}">Logout</a>
-                    <h4 class="text-center text-primary m-4">TOP COURSES</h4>
-                    <button class="btn btn-sm" id="sidebarToggleBtn" type="button" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"><i class="bi bi-menu-button-wide white-icon"></i></span> 
-                    </button>
+<body class="home-rtl">
+ <!-- start preLoader -->
+ <div id="preloader">
+    <svg id="mainSVG" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+      <defs>
+        <radialGradient id="mainGrad" cx="400" cy="300" fx="400" fy="300" r="100" gradientUnits="userSpaceOnUse">
+          <stop offset=".68" stop-color="#c494ff" />
+          <stop offset=".72" stop-color="#c494fe" />
+          <stop offset=".77" stop-color="#c494fd" />
+          <stop offset=".82" stop-color="#c494fc" />
+          <stop offset=".88" stop-color="#c494fb" />
+          <stop offset=".93" stop-color="#c494fa" />
+          <stop offset=".99" stop-color="#c49409" />
+          <stop offset="1" stop-color="#c49408" />
+        </radialGradient>
+      </defs>
+      <circle id="fillDot" cx="400" cy="300" fill="#c494ff" r="100" />
+      <circle id="gradDot" cx="400" cy="300" fill="url(#mainGrad)" r="100" />
+    </svg>
+  </div>
+  <!-- end preLoader -->
 
-                </div>
-                {% block content %}
-                {% endblock content %}
-                <div class="text-center mt-5 p-3">
-                  </div>
-            </main>
+  <!-- start scroll to top button -->
+  <div id="progress">
+    <span id="progress-value"><i class="bi bi-arrow-up-short"></i></span>
+  </div>
+  <!-- end scroll to top button -->
+{% comment %} <style>
+  .logo{
+    width: 150px !important;
+    height: 100px!important;
+  }
+</style> {% endcomment %}
+  <!-- ======= start Header ======= -->
+  <header class="header">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#"><img src="{% static "website/images/logo/logo.png" %}" class="logo" alt="LOGO"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list" id="menu"></i>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+          <ul class="navbar-nav d-flex flex-row-reverse ms-auto" id="navbar">
+            <li class="nav-item ">
+              <a class="nav-link {% block home %}{% endblock home %} " aria-current="page" href="{% url 'home' %}">الرئيسية</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% block courses %}{% endblock courses %}" href="{% url 'coursres' %}">التدريبات</a>
+            </li>
             
+            {% comment %} <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle {% block works %}{% endblock works %}" href="services.html" id="navbarDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            أعمالنا
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item py-2" href="#">YasBook</a></li>
+          </ul>
+        </li> 
+            <li class="nav-item">
+              <a class="nav-link {% block contact %}{% endblock contact %}" href="#">اتصل بنا</a>
+            </li>
+            {% endcomment %}
+          </ul>
+          <div class="d-flex ms-auto" >
+          {{request.user.fullName}}
         </div>
-    </div>
-    <script>
-        window.addEventListener('load', function() {
-          var preloader = document.getElementById('preloader');
-          preloader.classList.add('hide');
-        });
-      </script>
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Sidebar Toggle Script -->
-    <script>
-        $(document).ready(function () {
-            $('#sidebarToggleBtn').click(function () {
-                $('#sidebarMenu').toggleClass('show');
-            });
-        });
+          <div class="d-flex ms-auto">
+            {% block button %}{% endblock button %}
+            <button id="mode-toggle" class="btn-light-mode switch-button"><i id="mode-icon"
+                class="bi bi-moon-fill"></i></button>
+                
+          </div>
+          {% if request.user.is_authenticated %}
+            
+        {% endif %}
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!-- ======= end Header ======= -->
 
-        
-    </script>
+
+  {% block content %}
+  
+  {% endblock content %}
+
+  <!-- ============== Start Footer section ========== -->
+  <div class="footer mt-5">
+    
+    <hr>
+    <div class="copyrights ">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-6 d-flex justify-content-start">
+            <div>
+              <a href="#">شروط الاستخدام </a>
+              | <a href="#">سياسة الخصوصية</a>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 d-flex justify-content-end ">
+              <p class="creadits">
+                  &copy; جميع الحقوق محفوظة: <a href="#">لشركة توب</a> <span id="currentYear"></span>
+              </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ============== end Footer section ========== -->
+
+  <!--  JQuery file     -->
+  <script src="{% static "website/js/jquery-3.6.1.min.js" %} "></script>
+
+  <!-- bootstrap min js -->
+  <script src="{% static "website/js/bootstrap.min.js" %}"></script>
+
+  <!--  toasts file     -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+  <!--  owl carousel    -->
+  <script src="{% static "website/js/owl.carousel.min.js" %}"></script>
+
+  <!-- aos file    -->
+  <script src="{% static "website/js/aos.js" %}"></script>
+
+  <!-- gsap file    -->
+  <script src="{% static "website/js/gsap.min.js" %} "></script>
+
+  <!--  counter     -->
+  <script src="{% static "website/js/jquery.counterup.min.js" %}"></script>
+  <script src="{% static "website/js/jquery.waypoints.js" %} "></script>
+
+  <!-- particles js file  -->
+  <script src="{% static "website/js/particles.min.js" %} "></script>
+
+  <!-- jquery isotope file -->
+  <script src="{% static "website/js/isotope.min.js" %} "></script>
+
+  <!-- jquery fancybox file -->
+  <script src="{% static "website/js/jquery.fancybox.min.js" %} "></script>
+
+  <!--  main js file  -->
+  <script src="{% static "website/js/main.js" %} "></script>
+
+
 </body>
+
 </html>

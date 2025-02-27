@@ -1,31 +1,88 @@
 {% extends "../base.html" %}
 
 {% block content %}
-<div class="container my-5 text-right" dir="rtl">
-    <!-- اسم الدورة -->
-    <h3 class="text-center mb-4">{{ course.name }}</h3>
 
-    <!-- الخط الزمني للجلسات -->
-    <div class="timeline position-relative">
-        {% for session in course.session_set.all %}
-        <div class="timeline-item">
-            <div class="timeline-icon">
-                <i class="bi bi-calendar-check-fill"></i>
-            </div>
-            <div class="timeline-content">
-                <a href="{% url 'session_details' session.id %}" class="card-link" style="text-decoration: none; color: inherit;">
-                <div class="card">
-                    <div class="card-body">
-                <h4 class="timeline-title">الجلسة رقم {{ session.number }}</h4>
-                <p class="text-muted">التاريخ: {{ session.date }}</p>
-            </div>
-            </div>
-           </a>
-            </div>
-        </div>
-        {% endfor %}
+  <!-- ======= srart Breadcrumbs ======= -->
+  <section class="breadcrumbs py-4 justify-content-center" >
+    <div class="container">
+    
+      <h2 class="title ">{{ course.name }}</h2>
+      <p class="col-lg-10 col-12">
+       {{ course.description }}
+      </p>
     </div>
-</div>
+  </section>
+  <!-- End Breadcrumbs -->
+
+
+  
+  <!-- ============== Start services section ========== -->
+  <section class="container services py-5" id="services">
+    <div class="heading  justify-content-between">
+      
+      <h1 class="title col-lg-6 col-6 text-end" data-aos="fade-up" data-aos-delay="100">
+       الجلسات
+      </h1>
+      {% if request.user.is_superuser %}
+      <div class="mb-5">
+        <a class="btn " data-aos="fade-up" data-aos-delay="150" href="{% url 'add_session' course.id %}">إضافة جلسة</a>
+      </div>
+    </div>
+    {% endif %}
+    <div class="row gy-5 gx-5 ">
+      <!-- service number 1 -->
+      {% for session in course.session_set.all %}
+      
+      <div class="" data-aos="fade-right" data-aos-delay="250">
+        <a href="{% url 'session_details' session.id %}">
+        <div class="box box-service box-hover ">
+          <div class="title my-2 unique-text ">
+            #{{session.number}}
+          </div>
+          <h2 class="title-2 my-2 ">
+            {{ session.date }}
+          </h2>
+        </div>
+        </a>
+        {% if request.user.is_superuser %}
+        <a class="btn-danger" href="{% url 'delete_session' session.id %}" >
+          🗑️
+        </a>
+        {% endif %}
+
+      
+
+
+          <!-- Delete Modal -->
+          <div class="modal fade" id="deletesessionModal{{session.id}}" tabindex="-1" aria-labelledby="deletesessionModalLabel{{session.id}}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content text-dark">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deletesessionModalLabel{{session.id}}">
+                    حذف {{ session.name }}
+                  </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>هل أنت متأكد أنك تريد حذف</p>
+                  <p>"{{ session.fullName }}"</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                  <a class="btn btn-danger" href="">حذف</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      
+      
+      
+      </div>
+    </div>
+  </section>
+  <!-- ============== End services section ========== -->
 
 
 {% endblock %}

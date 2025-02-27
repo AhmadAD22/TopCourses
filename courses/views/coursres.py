@@ -1,7 +1,7 @@
-from django.shortcuts import render,get_object_or_404,HttpResponse,redirect
+from django.shortcuts import render,get_object_or_404,redirect
 from ..models import Course,StudentsCourse,Session
 from django.contrib.auth.decorators import login_required
-
+from accounts.models import Student
 @login_required(login_url='login')  
 def coursres(request):
     coursres=Course.objects.all()
@@ -10,7 +10,8 @@ def coursres(request):
 @login_required(login_url='login')  
 def join_course(request,course_id):
      course=get_object_or_404(Course,id=course_id)
-     student=request.user
+     
+     student=Student.objects.get(id=request.user.id)
      student_courses=StudentsCourse.objects.filter(student=student,course=course)
      if student_courses:
         return redirect('course_details',course.id)

@@ -1,6 +1,7 @@
 from django.db import models
 from accounts.models import User
 class Course(models.Model):
+    trainer=models.ForeignKey("accounts.Trainer", on_delete=models.CASCADE)
     image=models.ImageField(upload_to='media/courses',null=True,blank=True)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True,null=True)
@@ -10,20 +11,29 @@ class Course(models.Model):
         return self.name
     
 class StudentsCourse(models.Model):
-     student = models.ForeignKey(User, on_delete=models.CASCADE)
+     student = models.ForeignKey("accounts.Student", on_delete=models.CASCADE)
      course = models.ForeignKey(Course, on_delete=models.CASCADE)
      
 
+from django.db import models
+
 class Session(models.Model):
-    number=models.IntegerField()
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    number = models.PositiveIntegerField()
+    course = models.ForeignKey('Course', on_delete=models.CASCADE)
     date = models.DateField()
+    active = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['number', 'course'], name='unique_session_per_course')
+        ]
 
     def __str__(self):
-        return f"Session on {self.date} for {self.course.name}"
+        return f"Session {self.number} on {self.date} for {self.course.name}"
+
 
 class Attendance(models.Model):
-    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    student = models.ForeignKey("accounts.Student", on_delete=models.CASCADE)
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
     attended = models.BooleanField(default=False)
 
@@ -35,7 +45,7 @@ class EvaluationType(models.TextChoices):
     POST='بعدي'
 
 class Evaluation(models.Model):
-    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    student = models.ForeignKey("accounts.Student", on_delete=models.CASCADE)
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
     type=models.CharField(max_length=50,choices=EvaluationType.choices)
 
@@ -47,8 +57,13 @@ class Question(models.Model):
     question=models.CharField(max_length=250)
     answer=models.TextField(null=True,blank=True)
 
+class QuestionTemplate(models.Model):
+     type=models.CharField(max_length=50,choices=EvaluationType.choices)
+     session = models.ForeignKey(Session, on_delete=models.CASCADE)
+     question=models.CharField(max_length=250)
+     
 class SessionRating(models.Model):
-    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    student = models.ForeignKey("accounts.Student", on_delete=models.CASCADE)
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
     rating = models.IntegerField()
     message=models.TextField()

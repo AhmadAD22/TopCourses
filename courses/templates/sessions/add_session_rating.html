@@ -1,9 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
+<section class="breadcrumbs py-4 justify-content-center" >
+    <div class="container">
+    
+      <h2 class="title "> تقييم الجلسة</h2>
+      
+    </div>
+  </section>
 <div class="container my-5">
-    <div class="card shadow-lg">
-        <div class="card-body">
+    <div class="card shadow-lg d-flex justify-content-center">
+        <div class="card-body text-end">
             <h2 class="text-center text-primary">إضافة تقييم الجلسة</h2>
             <form method="post">
                 {% csrf_token %}

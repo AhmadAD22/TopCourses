@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from ..forms.auth import SignupForm
 from django.contrib.auth import authenticate, login,logout
+from ..models import *
 
 
 def signup_view(request):
@@ -18,22 +19,21 @@ def signup_view(request):
 
 
 
-
-
 def login_view(request):
     if request.method == 'POST':
         phone = request.POST['phone']
         password = request.POST['password']
         user = authenticate(request, phone=phone, password=password)
+        
         if user is not None:
-            
-            login(request,user)
-            return redirect("home")
+                login(request,user)
+                return redirect("trainer_main")
         else:
             error_message = 'Invalid phone number or password'
             return render(request, 'registration/login.html', {'error_message': error_message})
     else:
         return render(request, 'registration/login.html')
+
 
 def logout_view(request):
     logout(request)

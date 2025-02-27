@@ -1,26 +1,89 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block home %}active{% endblock home %}
 {% block content %}
-<div class="container my-5">
-    <div class="row g-4 d-flex justify-content-center">
-        {% for course in courses %}
-        <div class="col-lg-4 col-md-6 d-flex mb-4 align-items-stretch">
-            <div class="card text-center h-100" style="width: 100%;">
-                <img
-                    class="card-img-top rounded"
-                    src="{{course.image.url}}"
-                    alt="{{course.name}}"
-                    style="height: 200px; object-fit: cover;"
-                />
-                <div class="card-body d-flex flex-column">
-                    <h4 class="card-title">{{course.name}}</h4>
-                    <p class="card-text flex-grow-1">{{course.description}}</p>
-                    <a class="btn btn-primary"  href="{% url "course_details" course.id %}">عرض</a>
-                </div>
+
+
+
+
+
+
+
+  <!-- ============== Start Hero section ========== -->
+  <section class="hero  d-flex align-items-center justify-content-center" id="hero">
+    <div id="particles-js"></div>
+    <div class="container">
+      <div class="row flex-row align-items-center">
+        <div class="col-12 col-lg-5">
+          <div class="hero-text text-end">
+            <div class="row">
+              <div class="col-12 ">
+                <h1 class="title col-12 text-end" data-aos="fade-up" data-aos-delay="150">ابنِ النجاح معنا بأحدث<span
+                    class="unique-text"> الأساليب </span>التدريبية
+                    </h1>
+              </div>
+              <div class="col-12 text-end">
+               
+              </div>
             </div>
+          </div>
         </div>
-        {% endfor %}
+        <div class="col-12 col-lg-7 mx-md-auto" data-aos="fade-right" data-aos-delay="100">
+          <div class="hero-image">
+            <div class="hero-img">
+              <img class="img-fluid " alt="hero-img"
+                src="{% static "website/images/hero/hero1.png" %}">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </section>
+  <!-- ============== End Hero section ========== -->
+
+
+<!-- ============== Start portfolio section ========== -->
+
+<section class="container portfolio py-5" id="portfolio">
+    <div class="heading">
+      <h4 class="pretitle" data-aos="fade-up">
+        التدريبات
+      </h4>
+      <h1 class="title col-12" data-aos="fade-up" data-aos-delay="100">
+        تدريباتك
+      </h1>
+    </div>
+    </div>
+    <div class="row gy-4 gx-4 " data-aos="fade-up" data-aos-delay="150">
+        {% for course in courses %}
+      <div class="col-md-6  col-lg-4 mx-auto data text-center ">
+
+          <div class="portfolio-item">
+            <img src="{{course.image.url}}" alt="portfolio-img">
+            <div class="img-overlay">
+              <div class="content">
+                <h3>{{course.name}}</h3>
+                <h6>{% if course.description|length > 30 %}
+                    {{ course.description|slice:":30" }}...
+                {% else %}
+                    {{ course.description }}
+                {% endif %}</h6>
+                <div class="d-flex tags my-2">
+                  <span>#{{course}}</span>
+                  
+                </div>
+                <h4><a class="unique-text" href="{% url 'course_details' course.id %}"><i class="bi bi-eye-fill mx-2"></i>عرض
+                    </a></h4>
+              </div>
+            </div>
+          </div>
+    
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  <!-- ============== End portfolio section ========== -->
+
+
+
 {% endblock %}

@@ -1,6 +1,15 @@
 {% extends "../base.html" %}
 {% block courses %}active{% endblock courses %}
 {% block content %}
+  <!-- ======= srart Breadcrumbs ======= -->
+  <section class="breadcrumbs py-4 justify-content-center" >
+    <div class="container">
+    
+      <h2 class="title ">جميع التدريبات</h2>
+      
+    </div>
+  </section>
+  <!-- End Breadcrumbs -->
 <div class="container my-5">
     <div class="row g-4 d-flex justify-content-center">
         {% for course in coursres %}
@@ -16,7 +25,14 @@
                     <h4 class="card-title">{{course.name}}</h4>
                     <p class="card-text flex-grow-1">{{course.description}}</p>
                     {% if course.active %}
-                    <a class="btn btn-primary"  href="{% url "join_course" course.id %}">إنضمام</a>
+                    <div class="d-flex justify-content-center">
+                        {% if request.user.is_superuser %}
+                        <h4><a class="unique-text" href="{% url 'course_details' course.id %}"><i class="bi bi-eye-fill mx-2"></i>عرض
+                        </a></h4>
+                        {% else %}
+                        <a class="btn"  href="{% url "join_course" course.id %}">إنضمام</a>
+                        {% endif %}
+                    </div>
                     {% endif %}
                 </div>
             </div>
